@@ -7,8 +7,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
-import com.google.firebase.annotations.concurrent.Background
-
+import androidx.lifecycle.viewmodel.compose.viewModel
+import edu.pe.cibertec.viewmodel.AuthState
+import edu.pe.cibertec.viewmodel.AuthViewModel
 
 @Composable
 fun LoginScreen(
