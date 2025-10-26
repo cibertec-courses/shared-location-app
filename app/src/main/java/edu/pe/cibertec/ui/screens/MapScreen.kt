@@ -64,30 +64,46 @@ fun MapScreen(
             }
         }
 
-        // Botón flotante para obtener ubicación
-        FloatingActionButton(
-            onClick = {
-                if (!permissionState.hasPermission) {
-                    permissionState.requestPermission()
-                } else {
-                    viewModel.getCurrentLocation(context)
-                }
-            },
+        // Botones en columna
+        Column(
             modifier = Modifier
                 .align(Alignment.BottomEnd)
-                .padding(16.dp)
+                .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            if (locationState.isLoading) {
-                CircularProgressIndicator(
-                    modifier = Modifier.size(24.dp),
-                    color = MaterialTheme.colorScheme.onPrimaryContainer
-                )
-            } else {
-                Text("GPS")
+            // Botón para guardar ubicación
+            if (locationState.currentLocation != null) {
+                FloatingActionButton(
+                    onClick = {
+                        viewModel.saveLocationToFirestore()
+                    }
+                ) {
+                    Text("Save")
+                }
+            }
+
+            // Botón GPS
+            FloatingActionButton(
+                onClick = {
+                    if (!permissionState.hasPermission) {
+                        permissionState.requestPermission()
+                    } else {
+                        viewModel.getCurrentLocation(context)
+                    }
+                }
+            ) {
+                if (locationState.isLoading) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.size(24.dp),
+                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                    )
+                } else {
+                    Text("GPS")
+                }
             }
         }
 
-
+        // Mostrar mensajes
         if (!permissionState.hasPermission) {
             Card(
                 modifier = Modifier
@@ -105,9 +121,19 @@ fun MapScreen(
             Snackbar(
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
-                    .padding(16.dp)
+                    .padding(bottom = 80.dp, start = 16.dp, end = 16.dp)
             ) {
                 Text(error)
+            }
+        }
+
+        locationState.successMessage?.let { message ->
+            Snackbar(
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(bottom = 80.dp, start = 16.dp, end = 16.dp)
+            ) {
+                Text(message)
             }
         }
     }
