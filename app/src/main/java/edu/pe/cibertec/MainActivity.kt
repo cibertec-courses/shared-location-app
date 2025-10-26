@@ -13,6 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import edu.pe.cibertec.navigatiion.NavGraph
 import edu.pe.cibertec.ui.screens.LoginScreen
 import edu.pe.cibertec.ui.theme.SharedlocationappTheme
 
@@ -23,11 +24,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             SharedlocationappTheme {
                 Surface(color= MaterialTheme.colorScheme.background){
-                    LoginScreen (
-                        onLoginSucces = {
-
-                        }
-                    )
+                    NavGraph()
                 }
             }
         }
